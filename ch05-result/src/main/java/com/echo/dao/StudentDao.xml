@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.echo.dao.StudentDao">
+    <!--使用insert,update,delete,select标签写sql语句-->
+
+	<select id="selectById" parameterType="integer"
+			resultType="com.echo.domain.Student">
+		select id,name,email,age from student where id = #{studentId}
+	</select>
+
+	<!--
+		执行sql语句，得到一个值（一行一列）
+	-->
+	<select id="CountStudent" resultType="java.lang.Long">
+		select count(*) from student
+	</select>
+
+	<!--
+		执行sql语句得到一个Map结构数据，mybatis执行sql,把ResultSet转为map
+		sql执行结果，列名做map的key，列值作为value
+		sql执行得到一行记录，转为map结构是正确的。
+
+		dao接口返回是一个map,sql语句最多能获取一行记录，多于一行是错误的。
+	-->
+	<select id="selectMap" resultType="java.util.Map">
+		select id,name from student where id=#{stuid}
+	</select>
+
+	<!--
+		使用ResultMap定义列和属性之间的关系
+		resultType和resultMap不能同时使用，二选一
+	-->
+	<!--定义ResultMap
+		id:给resultMap的映射关系起个名称，唯一值
+		type: java类型的全限定名称
+	-->
+	<resultMap id="CustomMap" type="com.echo.vo.CustomObject">
+		<!--定义列名和属性名之间的对应-->
+		<!--主键类型使用id标签-->
+		<id column="id" property="cid"/>
+		<!--非主键类型使用result标签-->
+		<result column="name" property="cname"/>
+		<!--列名与属性名相同不用配置-->
+	</resultMap>
+	<select id="selectById2" resultMap="CustomMap">
+		select id,name,email,age from student where id = #{sid}
+	</select>
+
+	<!--Like第一种方式-->
+	<select id="selectLikeOne" resultType="com.echo.domain.Student">
+		select * from student where name like #{name}
+	</select>
+
+</mapper>

@@ -1,0 +1,7 @@
+# Project exclude paths
+/ch01-first/target/
+/ch02-dao/target/
+/ch03-proxy-dao/target/
+/ch04-parameter/target/
+/ch05-result/target/
+/ch06-dynamic-sql/target/
